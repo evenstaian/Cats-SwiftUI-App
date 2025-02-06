@@ -50,6 +50,6 @@ class DetailsViewModel: DetailsViewmodeling {
         // TODO
     }
     func refresh() async {
-        
+        run()
     }
 }
