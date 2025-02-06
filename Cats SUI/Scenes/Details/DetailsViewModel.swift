@@ -29,7 +29,9 @@ class DetailsViewModel: DetailsViewmodeling {
         service.getDetailsData(id: self.id) { [weak self] result in
             switch result {
             case .success(let response):
-                self?.detailsData = response
+                DispatchQueue.main.async {
+                    self?.detailsData = response
+                }
             case .failure(let error):
                 switch error {
                 case .noConnection:

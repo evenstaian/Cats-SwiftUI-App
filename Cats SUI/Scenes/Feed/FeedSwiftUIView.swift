@@ -18,18 +18,24 @@ struct FeedSwiftUIView<VM>: View where VM: FeedViewmodeling {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                HeaderComponent()
+            ZStack {
+                VStack(spacing: 0) {
+                    HeaderComponent()
+                    
+                    ListComponent(
+                        feedData: viewModel.feedData,
+                        onTapDetails: { feedData in
+                            selectedFeedData = feedData
+                        },
+                        onRefresh: {
+                            await viewModel.refresh()
+                        }
+                    )
+                }
                 
-                ListComponent(
-                    feedData: viewModel.feedData,
-                    onTapDetails: { feedData in
-                        selectedFeedData = feedData
-                    },
-                    onRefresh: {
-                        await viewModel.refresh()
-                    }
-                )
+                if viewModel.isLoading {
+                    LoaderView()
+                }
             }
             .navigationBarHidden(true)
             .navigationDestination(item: $selectedFeedData) { feedData in

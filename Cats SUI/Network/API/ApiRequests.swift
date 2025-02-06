@@ -23,7 +23,6 @@ class ApiRequests: APIRequesting {
             "Content-Type" : "application/json",
             "x-api-key" : ApiConstants.API_KEY
         ]
-        config.requestCachePolicy = .returnCacheDataElseLoad
         return config
     }
 

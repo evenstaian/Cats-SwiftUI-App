@@ -11,12 +11,14 @@ import Combine
 
 protocol FeedViewmodeling: ObservableObject {
     var feedData: [FeedData] { get set }
+    var isLoading: Bool { get set }
     func goToDetails(feedData: FeedData) -> AnyView
     func refresh() async
 }
 
 class FeedViewModel: FeedViewmodeling {
     @Published var feedData: [FeedData] = []
+    @Published var isLoading: Bool = false
     
     private var service: FeedServicing
     private var coordinator: any FeedCoordinating
@@ -28,11 +30,18 @@ class FeedViewModel: FeedViewmodeling {
     }
     
     func run(){
+        isLoading = true
         service.getFeedData { [weak self] result in
             switch result {
             case .success(let response):
-                self?.feedData.append(contentsOf: response)
+                DispatchQueue.main.async {
+                    self?.feedData.append(contentsOf: response)
+                    self?.isLoading = false
+                }
             case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.isLoading = false
+                }
                 switch error {
                 case .noConnection:
                     self?.showError("No internet connection. Please check your network and try again.")
@@ -56,6 +65,7 @@ class FeedViewModel: FeedViewmodeling {
     
     @MainActor
     func refresh() async {
+        isLoading = true
         feedData.removeAll()
         run()
     }
