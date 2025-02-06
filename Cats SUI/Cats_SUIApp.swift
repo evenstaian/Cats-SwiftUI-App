@@ -11,7 +11,7 @@ import SwiftUI
 struct Cats_SUIApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FeedFactory.makeModule()
         }
     }
 }

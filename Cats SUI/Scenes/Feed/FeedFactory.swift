@@ -7,10 +7,11 @@
 
 import Foundation
 import SwiftUI
-import UIKit
 
 enum FeedFactory {
-    static func makeModule() -> UIViewController {
-        return UIViewController()
+    static func makeModule() -> some View {
+        let controller = FeedSwiftUIView()
+        return controller
     }
+
 }
