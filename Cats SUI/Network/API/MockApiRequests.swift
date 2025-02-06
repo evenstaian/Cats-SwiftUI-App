@@ -18,6 +18,15 @@ class MockApiRequests: APIRequesting {
         }
     }
     
+    func getDetailsData(id: String, completion: @escaping (Result<[FeedData], NetworkErrors>) -> Void) {
+        if let filePath = Bundle.main.path(forResource: "mockDetailsData", ofType: "json"),
+           let jsonData = try? Data(contentsOf: URL(fileURLWithPath: filePath)) {
+            generateJSONDataCompletion(jsonData: jsonData, completion: completion)
+        } else {
+            completion(.failure(.unknown))
+        }
+    }
+    
     private func generateJSONDataCompletion<T: Decodable>(jsonData: Data, completion: @escaping (Result<T, NetworkErrors>) -> Void) {
         do {
             let response = try JSONDecoder().decode(T.self, from: jsonData)

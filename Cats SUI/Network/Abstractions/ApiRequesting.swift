@@ -7,4 +7,5 @@
 
 protocol APIRequesting {
     func getFeedData(completion: @escaping (Result<[FeedData], NetworkErrors>) -> Void)
+    func getDetailsData(id: String, completion: @escaping (Result<FeedData, NetworkErrors>) -> Void)
 }

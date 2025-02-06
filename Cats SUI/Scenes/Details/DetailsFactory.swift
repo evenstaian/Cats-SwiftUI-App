@@ -7,10 +7,10 @@
 
 import Foundation
 import SwiftUI
-import UIKit
 
 enum DetailsFactory {
-    static func makeModule() -> UIViewController {
-        return UIViewController()
+    static func makeModule() -> Void {
+        let API = MockApiRequests()
+        let service = DetailsService(API: API)
     }
 }
