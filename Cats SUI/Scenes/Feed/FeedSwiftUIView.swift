@@ -16,7 +16,20 @@ struct FeedSwiftUIView<VM>: View where VM: FeedViewmodeling {
     }
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            VStack(spacing: 0) {
+                HeaderComponent()
+                
+                ListComponent(
+                    feedData: viewModel.feedData,
+                    onTapDetails: viewModel.goToDetails,
+                    onRefresh: {
+                        await viewModel.refresh()
+                    }
+                )
+            }
+            .navigationBarHidden(true)
+        }
     }
 }
 

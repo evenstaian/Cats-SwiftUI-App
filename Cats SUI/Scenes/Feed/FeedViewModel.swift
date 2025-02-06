@@ -11,6 +11,7 @@ import Combine
 protocol FeedViewmodeling: ObservableObject {
     var feedData : [FeedData] { get set}
     func goToDetails(feedData: FeedData)
+    func refresh() async
 }
 
 class FeedViewModel: FeedViewmodeling {
@@ -49,5 +50,11 @@ class FeedViewModel: FeedViewmodeling {
     
     func goToDetails(feedData: FeedData) {
         // TODO
+    }
+    
+    @MainActor
+    func refresh() async {
+        feedData.removeAll()
+        run()
     }
 }
