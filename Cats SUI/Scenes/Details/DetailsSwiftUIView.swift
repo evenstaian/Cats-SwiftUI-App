@@ -25,6 +25,7 @@ struct DetailsSwiftUIView<VM>: View where VM: DetailsViewmodeling {
                             .aspectRatio(contentMode: .fill)
                             .frame(width: geometry.size.width, height: 400)
                             .clipped()
+                            .accessibilityIdentifier("MainImage")
                     } placeholder: {
                         ProgressView()
                             .frame(width: geometry.size.width, height: 400)
@@ -43,10 +44,12 @@ struct DetailsSwiftUIView<VM>: View where VM: DetailsViewmodeling {
                                 Text(breed.name)
                                     .font(.system(size: 32, weight: .bold))
                                     .foregroundColor(.primary)
+                                    .accessibilityIdentifier("BreedName")
                                 
                                 Text("Origin: \(breed.origin)")
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
+                                    .accessibilityIdentifier("Origin")
                             }
                             .frame(maxWidth: .infinity)
                             .padding(.top, 24)
@@ -59,10 +62,13 @@ struct DetailsSwiftUIView<VM>: View where VM: DetailsViewmodeling {
                                         
                                         HStack(spacing: 20) {
                                             WeightCardComponent(title: "Imperial", value: breed.weight.imperial)
+                                                .accessibilityIdentifier("ImperialWeight")
                                             WeightCardComponent(title: "Metric", value: breed.weight.metric)
+                                                .accessibilityIdentifier("MetricWeight")
                                         }
                                     }
                                 }
+                                .accessibilityIdentifier("WeightSection")
                                 
                                 SectionCardComponent {
                                     VStack(alignment: .leading, spacing: 16) {
@@ -70,10 +76,14 @@ struct DetailsSwiftUIView<VM>: View where VM: DetailsViewmodeling {
                                             .font(.headline)
                                         
                                         InfoRowComponent(title: "Temperament", value: breed.temperament)
+                                            .accessibilityIdentifier("Temperament")
                                         InfoRowComponent(title: "Life Span", value: "\(breed.lifeSpan) years")
+                                            .accessibilityIdentifier("LifeSpan")
                                         InfoRowComponent(title: "Country", value: "\(breed.origin) (\(breed.countryCode))")
+                                            .accessibilityIdentifier("Country")
                                     }
                                 }
+                                .accessibilityIdentifier("CharacteristicsSection")
                                 
                                 if let wikipediaUrl = URL(string: breed.wikipediaUrl) {
                                     Link(destination: wikipediaUrl) {
@@ -88,6 +98,7 @@ struct DetailsSwiftUIView<VM>: View where VM: DetailsViewmodeling {
                                         .foregroundColor(.blue)
                                         .cornerRadius(12)
                                     }
+                                    .accessibilityIdentifier("WikipediaLink")
                                 }
                             }
                             
@@ -102,6 +113,7 @@ struct DetailsSwiftUIView<VM>: View where VM: DetailsViewmodeling {
                                             .foregroundColor(.secondary)
                                     }
                                 }
+                                .accessibilityIdentifier("TechnicalDetails")
                             }
                         }
                     }
@@ -113,6 +125,7 @@ struct DetailsSwiftUIView<VM>: View where VM: DetailsViewmodeling {
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(.systemBackground))
         .edgesIgnoringSafeArea(.top)
+        .accessibilityIdentifier("DetailsView")
     }
 }
 
