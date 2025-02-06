@@ -10,7 +10,9 @@ import SwiftUI
 
 enum FeedFactory {
     static func makeModule() -> some View {
-        let viewModel = FeedViewModel()
+        let API = MockApiRequests()
+        let service = FeedService(API: API)
+        let viewModel = FeedViewModel(service: service)
         let controller = FeedSwiftUIView(viewModel: viewModel)
         return controller
     }

@@ -17,13 +17,33 @@ class FeedViewModel: FeedViewmodeling {
     
     @Published var feedData: [FeedData] = []
     
-    var service: Any?
+    var service: FeedServicing
     
-    init(){
+    init(service: FeedServicing){
+        self.service = service
         run()
     }
     
     func run(){
+        service.getFeedData { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.feedData.append(contentsOf: response)
+            case .failure(let error):
+                switch error {
+                case .noConnection:
+                    self?.showError("No internet connection. Please check your network and try again.")
+                case .notFound:
+                    self?.showError("Explore data not found. Please try again later.")
+                default:
+                    self?.showError("An unexpected error occurred. Please try again later.")
+                }
+                print("Error fetching exploreData: \(error)")
+            }
+        }
+    }
+    
+    private func showError(_ message: String) {
         // TODO
     }
     
