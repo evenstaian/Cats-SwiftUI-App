@@ -10,7 +10,9 @@ import SwiftUI
 struct ListComponent: View {
     let feedData: [FeedData]
     let onTapDetails: (FeedData) -> Void
-    let onRefresh: () async -> Void
+    let onRefresh: () -> Void
+    let onLoadMore: () -> Void
+    let isLoadingMore: Bool
     
     @State private var isRefreshing = false
     
@@ -19,7 +21,7 @@ struct ListComponent: View {
             RefreshableView(
                 coordinateSpaceName: "pullToRefresh",
                 onRefresh: { progress in
-                    await onRefresh()
+                    onRefresh()
                 },
                 refreshingView: {
                     PawPrintView(progress: $0)
@@ -31,6 +33,15 @@ struct ListComponent: View {
                         FeedItemView(feedData: item) {
                             onTapDetails(item)
                         }
+                        .onAppear {
+                            if item.id == feedData.last?.id {
+                                onLoadMore()
+                            }
+                        }
+                    }
+                    
+                    if isLoadingMore {
+                        LoadingMoreView()
                     }
                 }
                 .padding(.horizontal)
@@ -44,7 +55,7 @@ struct ListComponent: View {
 
 struct RefreshableView<Content: View, RefreshContent: View>: View {
     let coordinateSpaceName: String
-    let onRefresh: (CGFloat) async -> Void
+    let onRefresh: (CGFloat) -> Void
     let refreshingView: (CGFloat) -> RefreshContent
     let content: Content
     
@@ -53,7 +64,7 @@ struct RefreshableView<Content: View, RefreshContent: View>: View {
     
     init(
         coordinateSpaceName: String,
-        onRefresh: @escaping (CGFloat) async -> Void,
+        onRefresh: @escaping (CGFloat) -> Void,
         refreshingView: @escaping (CGFloat) -> RefreshContent,
         @ViewBuilder content: () -> Content
     ) {
@@ -95,7 +106,7 @@ struct RefreshableView<Content: View, RefreshContent: View>: View {
                 refreshState = .refreshing
                 progress = 1
                 Task {
-                    await onRefresh(progress)
+                    onRefresh(progress)
                     refreshState = .waiting
                     withAnimation {
                         progress = 0

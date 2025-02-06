@@ -28,13 +28,27 @@ struct FeedSwiftUIView<VM>: View where VM: FeedViewmodeling {
                             selectedFeedData = feedData
                         },
                         onRefresh: {
-                            await viewModel.refresh()
-                        }
+                            viewModel.refresh()
+                        },
+                        onLoadMore: {
+                            viewModel.loadMore()
+                        },
+                        isLoadingMore: viewModel.isLoadingMore
                     )
                 }
                 
                 if viewModel.isLoading {
                     LoaderView()
+                }
+                
+                if let errorMessage = viewModel.errorMessage {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                    
+                    ErrorView(
+                        message: errorMessage,
+                        onDismiss: viewModel.dismissError
+                    )
                 }
             }
             .navigationBarHidden(true)
