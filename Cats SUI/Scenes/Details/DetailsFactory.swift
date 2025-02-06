@@ -10,7 +10,7 @@ import SwiftUI
 
 enum DetailsFactory {
     static func makeModule(id: String) -> some View {
-        let API = MockApiRequests()
+        let API = ApiRequests()
         let service = DetailsService(API: API)
         let viewModel = DetailsViewModel(id: id, service: service)
         let controller = DetailsSwiftUIView(viewModel: viewModel)

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct FeedFactory {
     static func makeModule() -> some View {
-        let API = MockApiRequests()
+        let API = ApiRequests()
         let service = FeedService(API: API)
         let coordinator = FeedCoordinator()
         let viewModel = FeedViewModel(service: service, coordinator: coordinator)
