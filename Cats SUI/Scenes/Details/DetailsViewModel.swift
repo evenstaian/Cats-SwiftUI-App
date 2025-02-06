@@ -1,37 +1,35 @@
 //
-//  FeedViewModel.swift
+//  DetailsViewModel.swift
 //  Cats SUI
 //
 //  Created by Evens Taian on 06/02/25.
 //
 
 import Foundation
-import SwiftUI
 import Combine
 
-protocol FeedViewmodeling: ObservableObject {
-    var feedData: [FeedData] { get set }
-    func goToDetails(feedData: FeedData) -> AnyView
+protocol DetailsViewmodeling: ObservableObject {
+    var detailsData : FeedData? { get set}
     func refresh() async
 }
 
-class FeedViewModel: FeedViewmodeling {
-    @Published var feedData: [FeedData] = []
+class DetailsViewModel: DetailsViewmodeling {
+    var id: String
+    @Published var detailsData : FeedData?
     
-    private var service: FeedServicing
-    private var coordinator: any FeedCoordinating
+    var service: DetailsServicing
     
-    init(service: FeedServicing, coordinator: any FeedCoordinating) {
+    init(id: String, service: DetailsServicing){
+        self.id = id
         self.service = service
-        self.coordinator = coordinator
         run()
     }
     
     func run(){
-        service.getFeedData { [weak self] result in
+        service.getDetailsData(id: self.id) { [weak self] result in
             switch result {
             case .success(let response):
-                self?.feedData.append(contentsOf: response)
+                self?.detailsData = response
             case .failure(let error):
                 switch error {
                 case .noConnection:
@@ -49,14 +47,7 @@ class FeedViewModel: FeedViewmodeling {
     private func showError(_ message: String) {
         // TODO
     }
-    
-    func goToDetails(feedData: FeedData) -> AnyView {
-        return coordinator.goToDetails(feedData: feedData)
-    }
-    
-    @MainActor
     func refresh() async {
-        feedData.removeAll()
-        run()
+        
     }
 }

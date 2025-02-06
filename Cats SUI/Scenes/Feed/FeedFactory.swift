@@ -8,13 +8,12 @@
 import Foundation
 import SwiftUI
 
-enum FeedFactory {
+struct FeedFactory {
     static func makeModule() -> some View {
         let API = MockApiRequests()
         let service = FeedService(API: API)
-        let viewModel = FeedViewModel(service: service)
-        let controller = FeedSwiftUIView(viewModel: viewModel)
-        return controller
+        let coordinator = FeedCoordinator()
+        let viewModel = FeedViewModel(service: service, coordinator: coordinator)
+        return FeedSwiftUIView(viewModel: viewModel)
     }
-
 }

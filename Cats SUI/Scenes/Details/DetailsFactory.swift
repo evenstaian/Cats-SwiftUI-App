@@ -9,8 +9,11 @@ import Foundation
 import SwiftUI
 
 enum DetailsFactory {
-    static func makeModule() -> Void {
+    static func makeModule(id: String) -> some View {
         let API = MockApiRequests()
         let service = DetailsService(API: API)
+        let viewModel = DetailsViewModel(id: id, service: service)
+        let controller = DetailsSwiftUIView(viewModel: viewModel)
+        return controller
     }
 }

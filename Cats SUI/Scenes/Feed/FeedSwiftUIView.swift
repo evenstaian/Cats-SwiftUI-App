@@ -10,6 +10,7 @@ import SwiftUI
 struct FeedSwiftUIView<VM>: View where VM: FeedViewmodeling {
     
     @ObservedObject private var viewModel: VM
+    @State private var selectedFeedData: FeedData?
         
     init(viewModel: VM){
         self.viewModel = viewModel
@@ -22,13 +23,18 @@ struct FeedSwiftUIView<VM>: View where VM: FeedViewmodeling {
                 
                 ListComponent(
                     feedData: viewModel.feedData,
-                    onTapDetails: viewModel.goToDetails,
+                    onTapDetails: { feedData in
+                        selectedFeedData = feedData
+                    },
                     onRefresh: {
                         await viewModel.refresh()
                     }
                 )
             }
             .navigationBarHidden(true)
+            .navigationDestination(item: $selectedFeedData) { feedData in
+                viewModel.goToDetails(feedData: feedData)
+            }
         }
     }
 }

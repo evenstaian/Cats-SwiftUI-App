@@ -121,7 +121,6 @@ private struct FeedItemView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            // Image
             AsyncImage(url: URL(string: feedData.url)) { image in
                 image
                     .resizable()
@@ -134,7 +133,6 @@ private struct FeedItemView: View {
             }
             .clipShape(RoundedRectangle(cornerRadius: 16))
             
-            // Actions
             HStack(spacing: 16) {
                 Button(action: {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
@@ -147,22 +145,20 @@ private struct FeedItemView: View {
                         .symbolEffect(.bounce, value: isLiked)
                 }
                 
-                if let breeds = feedData.breeds, !breeds.isEmpty {
-                    Button(action: onTapDetails) {
-                        HStack(spacing: 4) {
-                            Text("See details")
-                                .fontWeight(.medium)
-                            Image(systemName: "chevron.right")
-                                .font(.caption.bold())
-                        }
-                        .foregroundColor(.blue)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(
-                            Capsule()
-                                .fill(Color.blue.opacity(0.1))
-                        )
+                Button(action: onTapDetails) {
+                    HStack(spacing: 4) {
+                        Text("See details")
+                            .fontWeight(.medium)
+                        Image(systemName: "chevron.right")
+                            .font(.caption.bold())
                     }
+                    .foregroundColor(.blue)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(
+                        Capsule()
+                            .fill(Color.blue.opacity(0.1))
+                    )
                 }
                 
                 Spacer()

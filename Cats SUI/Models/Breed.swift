@@ -5,7 +5,7 @@
 //  Created by Evens Taian on 06/02/25.
 //
 
-struct Breed: Codable, Identifiable {
+struct Breed: Codable, Identifiable, Hashable {
     let id: String
     let name: String
     let temperament: String
@@ -24,7 +24,7 @@ struct Breed: Codable, Identifiable {
     }
 }
 
-struct Weight: Codable {
+struct Weight: Codable, Hashable {
     let imperial: String
     let metric: String
 }
