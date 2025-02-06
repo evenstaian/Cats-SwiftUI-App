@@ -49,27 +49,27 @@ struct DetailsSwiftUIView<VM>: View where VM: DetailsViewmodeling {
                         // Breed Details
                         VStack(spacing: 20) {
                             // Weight Section
-                            SectionCard {
+                            SectionCardComponent {
                                 VStack(alignment: .leading, spacing: 16) {
                                     Label("Weight Information", systemImage: "scalemass")
                                         .font(.headline)
                                     
                                     HStack(spacing: 20) {
-                                        WeightCard(title: "Imperial", value: breed.weight.imperial)
-                                        WeightCard(title: "Metric", value: breed.weight.metric)
+                                        WeightCardComponent(title: "Imperial", value: breed.weight.imperial)
+                                        WeightCardComponent(title: "Metric", value: breed.weight.metric)
                                     }
                                 }
                             }
                             
                             // Characteristics Section
-                            SectionCard {
+                            SectionCardComponent {
                                 VStack(alignment: .leading, spacing: 16) {
                                     Label("Characteristics", systemImage: "pawprint")
                                         .font(.headline)
                                     
-                                    InfoRow(title: "Temperament", value: breed.temperament)
-                                    InfoRow(title: "Life Span", value: "\(breed.lifeSpan) years")
-                                    InfoRow(title: "Country", value: "\(breed.origin) (\(breed.countryCode))")
+                                    InfoRowComponent(title: "Temperament", value: breed.temperament)
+                                    InfoRowComponent(title: "Life Span", value: "\(breed.lifeSpan) years")
+                                    InfoRowComponent(title: "Country", value: "\(breed.origin) (\(breed.countryCode))")
                                 }
                             }
                             
@@ -93,7 +93,7 @@ struct DetailsSwiftUIView<VM>: View where VM: DetailsViewmodeling {
                         // Technical Details
                         if let width = viewModel.detailsData?.width,
                            let height = viewModel.detailsData?.height {
-                            SectionCard {
+                            SectionCardComponent {
                                 VStack(alignment: .leading, spacing: 12) {
                                     Label("Technical Details", systemImage: "photo")
                                         .font(.headline)
@@ -112,56 +112,6 @@ struct DetailsSwiftUIView<VM>: View where VM: DetailsViewmodeling {
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(.systemBackground))
         .edgesIgnoringSafeArea(.top)
-    }
-}
-
-struct SectionCard<Content: View>: View {
-    let content: () -> Content
-    
-    init(@ViewBuilder content: @escaping () -> Content) {
-        self.content = content
-    }
-    
-    var body: some View {
-        content()
-            .padding()
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(.secondarySystemBackground))
-            .cornerRadius(16)
-    }
-}
-
-struct InfoRow: View {
-    let title: String
-    let value: String
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(title)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-            Text(value)
-                .font(.body)
-        }
-    }
-}
-
-struct WeightCard: View {
-    let title: String
-    let value: String
-    
-    var body: some View {
-        VStack(spacing: 8) {
-            Text(title)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-            Text(value)
-                .font(.headline)
-        }
-        .frame(maxWidth: .infinity)
-        .padding()
-        .background(Color.blue.opacity(0.1))
-        .cornerRadius(12)
     }
 }
 
