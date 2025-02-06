@@ -35,10 +35,12 @@ struct FeedSwiftUIView<VM>: View where VM: FeedViewmodeling {
                         },
                         isLoadingMore: viewModel.isLoadingMore
                     )
+                    .accessibilityIdentifier("FeedList")
                 }
                 
                 if viewModel.isLoading {
                     LoaderView()
+                        .accessibilityIdentifier("LoaderView")
                 }
                 
                 if let errorMessage = viewModel.errorMessage {
@@ -49,11 +51,13 @@ struct FeedSwiftUIView<VM>: View where VM: FeedViewmodeling {
                         message: errorMessage,
                         onDismiss: viewModel.dismissError
                     )
+                    .accessibilityIdentifier("ErrorView")
                 }
             }
             .navigationBarHidden(true)
             .navigationDestination(item: $selectedFeedData) { feedData in
                 viewModel.goToDetails(feedData: feedData)
+                    .accessibilityIdentifier("DetailsView")
             }
         }
     }
